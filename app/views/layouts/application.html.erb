@@ -1,25 +1,39 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Tacostagram Final</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>HW4</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <link rel="stylesheet" href="/stylesheets/application.css">
-  </head>
+  <%= stylesheet_link_tag "application", media: "all" %>
+  <%= javascript_include_tag "application" %>
+</head>
 
-  <body>
-    <div>
-      <%= flash["notice"] %>
-    </div>
-    <div>
-      <a href="/">Home</a>
-      <a href="/logout">Logout</a>
-      <a href="/login">Login</a>
-      <a href="/users/new">Signup</a>
-    </div>
+<body>
+  <nav>
+    <% if session[:user_id] %>
+      <p>Welcome!</p>
+      <form action="<%= logout_path %>" method="post">
+        <input type="hidden" name="_method" value="delete">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <button type="submit">Logout</button>
+      </form>
+    <% else %>
+      <a href="<%= login_path %>">Login</a> |
+      <a href="<%= new_user_path %>">Signup</a>
+    <% end %>
+  </nav>
 
-    <%= yield %>
-  </body>
+  <% if flash[:notice] %>
+    <p style="color: green;"><%= flash[:notice] %></p>
+  <% end %>
+
+  <% if flash[:alert] %>
+    <p style="color: red;"><%= flash[:alert] %></p>
+  <% end %>
+
+  <%= yield %>
+
+</body>
 </html>
