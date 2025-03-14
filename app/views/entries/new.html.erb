@@ -1,6 +1,6 @@
-<h1>New Journal Entry for <%= Place.find(params[:place_id])["name"] %></h1>
+<h1>New Journal Entry for <%= Place.find(params[:place_id]).name %></h1>
 
-<%= form_with url: entries_path, method: :post do |form| %>
+<%= form_with model: @entry, url: entries_path, method: :post do |form| %>
   <%= hidden_field_tag :place_id, params[:place_id] %>
 
   <div>
@@ -11,6 +11,16 @@
   <div>
     <label>Description</label>
     <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <label>Occurred On</label>
+    <%= form.date_select :occurred_on %>
+  </div>
+
+  <div>
+    <label>Image (Optional)</label>
+    <%= form.file_field :image %>
   </div>
 
   <div>

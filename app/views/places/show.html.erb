@@ -4,7 +4,15 @@
 <% if @entries.any? %>
   <ul>
     <% @entries.each do |entry| %>
-      <li><strong><%= entry["title"] %></strong>: <%= entry["description"] %></li>
+      <li>
+        <strong><%= entry["title"] %></strong>: <%= entry["description"] %>
+        <br>
+        <small>Occurred on: <%= entry["occurred_on"] %></small>
+        <% if entry.image.attached? %>
+          <br>
+          <%= image_tag entry.image, size: "300x300" %>  <!-- Display image here -->
+        <% end %>
+      </li>
     <% end %>
   </ul>
 <% else %>
