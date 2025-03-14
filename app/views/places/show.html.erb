@@ -1,16 +1,18 @@
 <h1><%= @place["name"] %></h1>
 
-<h2>My Entries</h2>
-<% for entry in @entries %>
-  <h3><%= entry["title"] %></h3>
-  <h4><%= entry["occurred_on"] %></h4>
-  <p><%= entry["description"] %></p>
+<h2>Journal Entries</h2>
+<% if @entries.any? %>
+  <ul>
+    <% @entries.each do |entry| %>
+      <li><strong><%= entry["title"] %></strong>: <%= entry["description"] %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No entries yet.</p>
 <% end %>
 
 <p>
-  <a href="/entries/new?place_id=<%= @place["id"] %>">New Entry</a>
+  <%= link_to "Add New Entry", new_entry_path(place_id: @place["id"]) %>
 </p>
 
-<p>
-  <a href="/places">Back to All Places</a>
-</p>
+<a href="/">Back to Places</a>

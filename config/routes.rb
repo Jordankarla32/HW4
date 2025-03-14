@@ -5,4 +5,8 @@ Rails.application.routes.draw do
   delete "/logout", to: "sessions#destroy", as: "logout"
  get "/login", to: "sessions#new"
   post "/login", to: "sessions#create"
+  resources :places, only: [:index, :new, :create, :show]
+  resources :entries, only: [:new, :create]
+
+
 end

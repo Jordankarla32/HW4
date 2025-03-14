@@ -1,22 +1,21 @@
-<h1>New Entry</h1>
+<h1>New Journal Entry for <%= Place.find(params[:place_id])["name"] %></h1>
 
-<form action="/entries" method="post">
-  <input type="hidden" name="place_id" value="<%= params["place_id"] %>">
+<%= form_with url: entries_path, method: :post do |form| %>
+  <%= hidden_field_tag :place_id, params[:place_id] %>
 
-  <p>
-    <label for="title_input">Title</label>
-    <input type="text" name="title" id="title_input">
-  </p>
+  <div>
+    <label>Title</label>
+    <%= form.text_field :title %>
+  </div>
 
-  <p>
-    <label for="description_input">Description</label>
-    <input type="text" name="description" id="description_input">
-  </p>
+  <div>
+    <label>Description</label>
+    <%= form.text_area :description %>
+  </div>
 
-  <p>
-    <label for="occurred_on_input">Occurred On</label>
-    <input type="date" name="occurred_on" id="occurred_on_input">
-  </p>
+  <div>
+    <%= form.submit "Save Entry" %>
+  </div>
+<% end %>
 
-  <button>Save</button>
-</form>
+<a href="/">Back to Places</a>

@@ -13,7 +13,8 @@
 <body>
   <nav>
     <% if session[:user_id] %>
-      <p>Welcome!</p>
+      <% user = User.find(session[:user_id]) %>
+      <p>Welcome, <%= user.email %>!</p>
       <form action="<%= logout_path %>" method="post">
         <input type="hidden" name="_method" value="delete">
         <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
@@ -34,6 +35,5 @@
   <% end %>
 
   <%= yield %>
-
 </body>
 </html>

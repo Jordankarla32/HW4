@@ -4,18 +4,16 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
+    @user = User.new
+    @user["email"] = params["email"]
+    @user["password"] = params["password"]
+
     if @user.save
-      session[:user_id] = @user.id  # Log in the user after signup
-      redirect_to "/", notice: "Successfully signed up!"
+      session[:user_id] = @user.id
+      redirect_to "/", notice: "Signed up successfully!"
     else
+      flash[:alert] = "Error: Could not create account."
       render :new
     end
-  end
-
-  private
-
-  def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation)
   end
 end
