@@ -1,13 +1,19 @@
 Rails.application.routes.draw do
-  root "places#index"
-  
-  resources :places, only: [:index, :show, :new, :create]
-  resources :entries, only: [:new, :create]
-
+  # User routes
   get '/signup', to: 'users#new'
-  post '/signup', to: 'users#create'
-
+  post '/users', to: 'users#create'
+  
+  # Session routes
   get '/login', to: 'sessions#new'
-  post '/login', to: 'sessions#create'
+  post '/sessions', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
+  get '/logout', to: 'sessions#destroy'  # Adding GET route for logout
+  
+  # Place routes
+  resources :places do
+    resources :entries, only: [:new, :create]
+  end
+  
+  # Set root path
+  root 'places#index'
 end
