@@ -1,16 +1,19 @@
-<h1><%= @place["name"] %></h1>
-
-<h2>My Entries</h2>
-<% for entry in @entries %>
-  <h3><%= entry["title"] %></h3>
-  <h4><%= entry["occurred_on"] %></h4>
-  <p><%= entry["description"] %></p>
-<% end %>
-
-<p>
-  <a href="/entries/new?place_id=<%= @place["id"] %>">New Entry</a>
-</p>
-
-<p>
-  <a href="/places">Back to All Places</a>
-</p>
+<h2><%= @place.name %></h2>
+<p><%= @place.description %></p>
+<%= link_to "Add Entry", new_entry_path, class: "btn btn-primary mb-3" %>
+<div class="row">
+  <% @entries.each do |entry| %>
+    <div class="col-md-4 mb-3">
+      <div class="card">
+        <% if entry.image.attached? %>
+          <%= image_tag entry.image, class: "card-img-top", alt: entry.title %>
+        <% end %>
+        <div class="card-body">
+          <h5 class="card-title"><%= entry.title %></h5>
+          <p class="card-text"><%= truncate(entry.description, length: 100) %></p>
+          <p class="card-text"><small class="text-muted"><%= entry.occurred_on %></small></p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

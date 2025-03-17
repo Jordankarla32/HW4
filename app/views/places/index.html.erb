@@ -1,11 +1,15 @@
-<h1>Places</h1>
-
-<ul>
-  <% for place in @places %>
-    <li><a href="/places/<%= place["id"] %>"><%= place["name"] %></a></li>
+<h2>Places</h2>
+<%= link_to "Add New Place", new_place_path, class: "btn btn-primary mb-3" %>
+<div class="row">
+  <% @places.each do |place| %>
+    <div class="col-md-4 mb-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><%= place.name %></h5>
+          <p class="card-text"><%= place.description %></p>
+          <%= link_to "View Entries", place_path(place), class: "btn btn-secondary" %>
+        </div>
+      </div>
+    </div>
   <% end %>
-</ul>
-
-<p>
-  <a href="/places/new">New place</a>
-</p>
+</div>

@@ -1,16 +1,28 @@
 class EntriesController < ApplicationController
+  before_action :require_login
 
   def new
+    @entry = Entry.new
   end
 
   def create
-    @entry = Entry.new
-    @entry["title"] = params["title"]
-    @entry["description"] = params["description"]
-    @entry["occurred_on"] = params["occurred_on"]
-    @entry["place_id"] = params["place_id"]
-    @entry.save
-    redirect_to "/places/#{@entry["place_id"]}"
+    @entry = current_user.entries.build(entry_params)
+    if @entry.save
+      redirect_to place_path(@entry.place_id), notice: "Entry created successfully"
+    else
+      render :new
+    end
   end
 
+  private
+
+    def entry_params
+      params.require(:entry).permit(:title, :description, :occurred_on, :image, :place_id)
+    end
+
+    def require_login
+      unless current_user
+        redirect_to login_path, alert: "Please log in to continue."
+      end
+    end
 end
